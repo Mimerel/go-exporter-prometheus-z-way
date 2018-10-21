@@ -20,7 +20,7 @@ func init() {
 
 
 func main() {
-	system_info.GetLocalSystemSituation()
+	system_info.AnalyseSystemInfo()
 	http.Handle("/metrics", promhttp.Handler())
-	// http.ListenAndServe(":2112", nil)
+	http.ListenAndServe(":2112", nil)
 }

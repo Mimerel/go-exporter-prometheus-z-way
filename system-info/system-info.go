@@ -24,11 +24,12 @@ type systemDetails struct {
 
 type summary struct {
 	metric   string
-	cpuUsage float64
+	value float64
 }
 
 type summaryFinal struct {
 	cpu_total summary
+	mem_total summary
 	cpu_exporter summary
 }
 
@@ -44,12 +45,15 @@ func AnalyseSystemInfo() (final summaryFinal) {
 
 func (final *summaryFinal) ExtractTotalCpuUsage(data []systemDetails) {
 	for _, value := range data {
-		final.cpu_total.cpuUsage = final.cpu_total.cpuUsage + value.cpu
+		final.cpu_total.value = final.cpu_total.value + value.cpu
+		final.mem_total.value = final.mem_total.value + value.mem
+
 		if strings.Index(value.command, "go-exporter-prometheus-z-way") != -1 {
-			final.cpu_exporter.cpuUsage = value.cpu
+			final.cpu_exporter.value = value.cpu
 		}
 	}
-	log.NoticeF("cpu used total : %f percent", final.cpu_total.cpuUsage)
+	log.NoticeF("cpu used total : %f percent", final.cpu_total.value)
+	log.NoticeF("mem used total : %f percent", final.mem_total.value)
 }
 
 func GetLocalSystemSituation() (data []systemDetails) {

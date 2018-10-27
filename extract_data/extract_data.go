@@ -42,7 +42,7 @@ var log, err = logger.New("test", 1, os.Stdout)
 
 func ExtractMetrics(w http.ResponseWriter, r *http.Request) {
 	registry := prometheus.NewRegistry()
-	var concernedServer = os.Getenv("EXPORTER_SERVER")
+	concernedServer := os.Getenv("EXPORTER_SERVER")
 	if concernedServer == "" {
 		concernedServer = "Anonymous"
 	}

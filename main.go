@@ -1,26 +1,13 @@
 package main
 
 import (
+	"go-exporter-prometheus-z-way/extract_data"
 	"net/http"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/prometheus/client_golang/prometheus"
-	"go-exporter-prometheus-z-way/system-info"
 )
 
-var cpuTemp = prometheus.NewGauge(prometheus.GaugeOpts{
-	Name: "cpu_temperature_celsius",
-	Help: "Current temperature of the CPU.",
-})
-
-
-func init() {
-	prometheus.MustRegister(cpuTemp)
-}
-
-
-
 func main() {
-	system_info.AnalyseSystemInfo()
-	http.Handle("/metrics", promhttp.Handler())
+	http.HandleFunc("/metrics", func (w http.ResponseWriter, r *http.Request) {
+		extract_data.ExtractMetrics(w, r)
+	})
 	http.ListenAndServe(":2112", nil)
 }

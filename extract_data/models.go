@@ -2,7 +2,7 @@ package extract_data
 
 import "github.com/prometheus/client_golang/prometheus"
 
-type systemDetails struct {
+type SystemDetails struct {
 	name    string
 	pid     int
 	cpu     float64
@@ -16,7 +16,7 @@ type systemDetails struct {
 	command string
 }
 
-type summary struct {
+type Summary struct {
 	metric string
 	value  float64
 }
@@ -26,6 +26,15 @@ type Data struct {
 	registry *prometheus.Registry
 	host string
 	zWayPath string
-	source map[string]*summary
+	source map[string]*Summary
 	metrics map[string]*prometheus.GaugeVec
+	configuration *MainConfig
 }
+
+type MainConfig struct{
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
+	FollowedServices map[string]string `yaml:"followedServices,omitempty"`
+	ActivatedModules []string `yaml:"activatedModules,omitempty"`
+}
+

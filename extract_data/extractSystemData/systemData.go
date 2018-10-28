@@ -8,7 +8,8 @@ import (
 	"strings"
 )
 
-func ExtractTotalCpuUsage(systemData []SystemDetails, conf configuration.MainConfig) (map[string]*Summary) {
+func ExtractTotalCpuUsage(conf configuration.MainConfig) (map[string]*Summary) {
+	systemData := GetLocalSystemSituation()
 	data := make(map[string]*Summary)
 	data["cpu_total"] = &Summary{ "Cpu_total",  0}
 	data["mem_total"] = &Summary{ "Mem_total", 0}

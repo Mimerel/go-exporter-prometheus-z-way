@@ -6,6 +6,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go-exporter-prometheus-z-way/extract_data/configuration"
 	"go-exporter-prometheus-z-way/extract_data/extractSystemData"
+	"go-exporter-prometheus-z-way/extract_data/extractZway"
 	"math"
 	"net/http"
 	"os"
@@ -26,11 +27,13 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 	}
 
 	// Collecting System details
-	var systemData []extractSystemData.SystemDetails
-	systemData = extractSystemData.GetLocalSystemSituation()
-	bob := extractSystemData.ExtractTotalCpuUsage(systemData, *conf)
-	for k, v := range bob {
+	for k, v := range extractSystemData.ExtractTotalCpuUsage(*conf) {
 			data.Source[k] = &Summary{v.Metric, v.Value}
+	}
+
+	// Collecting Z-way metrics
+	for k,v := range extractZway.ExtractZWayMetrics(*conf) {
+		data.Source[k] = &Summary{v.Metric, v.Value}
 	}
 
 	// Creating metrics and populating them

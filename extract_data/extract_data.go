@@ -12,88 +12,55 @@ import (
 	"strings"
 )
 
-type systemDetails struct {
-	name    string
-	pid     int
-	cpu     float64
-	mem     float64
-	vsz     string
-	rss     string
-	tt      string
-	stat    string
-	started string
-	time    string
-	command string
-}
-
-type summary struct {
-	metric string
-	value  float64
-}
-
-type summaryFinal struct {
-	cpu_total    summary
-	mem_total    summary
-	cpu_exporter summary
-	mem_exporter summary
-}
 
 var log, err = logger.New("test", 1, os.Stdout)
 
 func ExtractMetrics(w http.ResponseWriter, r *http.Request) {
-	registry := prometheus.NewRegistry()
-	concernedServer := os.Getenv("EXPORTER_SERVER")
-	if concernedServer == "" {
-		concernedServer = "Anonymous"
+	data := new(Data)
+	data.registry = prometheus.NewRegistry()
+	data.host = os.Getenv("EXPORTER_SERVER")
+	data.metrics = make(map[string]*prometheus.GaugeVec)
+	data.source = make(map[string]*summary)
+	if data.host == "" {
+		data.host = "Anonymous"
 	}
-	var final summaryFinal
-	var data []systemDetails
-	data = GetLocalSystemSituation()
-	final.ExtractTotalCpuUsage(data)
-	cpuTotal := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "CPU_Total",
-		Help: "The total amount of CPU Used",
-	},[]string{"host",})
-	cpuExporter := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "CPU_Exporter",
-		Help: "The Exporter amount of CPU Used",
-	},[]string{"host",})
-	memTotal := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "MEM_Total",
-		Help: "The total amount of MEMORY Used",
-	},[]string{"host",})
-	memExporter := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "MEM_exporter",
-		Help: "The Exporter amount of MEMORY Used",
-	},[]string{"host",})
-	registry.MustRegister(cpuTotal)
-	registry.MustRegister(cpuExporter)
-	registry.MustRegister(memTotal)
-	registry.MustRegister(memExporter)
-	cpuTotal.WithLabelValues(concernedServer).Add(math.Round(final.cpu_total.value*100)/100)
-	memTotal.WithLabelValues(concernedServer).Add(math.Round(final.mem_total.value*100)/100)
-	cpuExporter.WithLabelValues(concernedServer).Add(math.Round(final.cpu_exporter.value*100)/100)
-	memExporter.WithLabelValues(concernedServer).Add(math.Round(final.mem_exporter.value*100)/100)
-	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
+
+	// Collecting System details
+	var systemData []systemDetails
+	systemData = GetLocalSystemSituation()
+	data.ExtractTotalCpuUsage(systemData)
+
+	// creating metrics and populating them
+	for index, value := range data.source {
+		data.metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+			Name: value.metric, Help: value.metric, },[]string{"host",})
+		data.registry.MustRegister(data.metrics[index])
+		data.metrics[index].WithLabelValues(data.host).Add(math.Round(value.value*100)/100)
+	}
+	h := promhttp.HandlerFor(data.registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
 }
 
 
 
-func (final *summaryFinal) ExtractTotalCpuUsage(data []systemDetails) {
-	for _, value := range data {
-		final.cpu_total.value = final.cpu_total.value + value.cpu
-		final.mem_total.value = final.mem_total.value + value.mem
+func (data *Data) ExtractTotalCpuUsage(systemData []systemDetails) {
+	data.source["cpu_total"] = &summary{metric:"Cpu_total", value: 0}
+	data.source["cpu_exporter"] = &summary{metric:"Cpu_exporter", value: 0}
+	data.source["mem_total"] = &summary{metric:"Mem_total", value: 0}
+	data.source["mem_exporter"] = &summary{metric:"Mem_exporter", value: 0}
+	for _, value := range systemData {
+		data.source["cpu_total"].value = data.source["cpu_total"].value + value.cpu
+		data.source["mem_total"].value = data.source["mem_total"].value + value.mem
 
 		if strings.Index(value.command, "go-exporter-prometheus-z-way") != -1 {
-			final.cpu_exporter.value = value.cpu
-			final.mem_exporter.value = value.mem
+			(data.source["cpu_exporter"]).value = value.cpu
+			(data.source["mem_exporter"]).value = value.mem
 		}
 	}
-	log.NoticeF("cpu used total : %f percent", final.cpu_total.value)
-	log.NoticeF("cpu used exporter : %f percent", final.cpu_exporter.value)
-	log.NoticeF("mem used total : %f percent", final.mem_total.value)
-	log.NoticeF("mem used exporter : %f percent", final.mem_exporter.value)
+	log.NoticeF("cpu used total : %f percent", (data.source["cpu_total"]).value)
+	log.NoticeF("cpu used exporter : %f percent", (data.source["cpu_exporter"]).value)
+	log.NoticeF("mem used total : %f percent", (data.source["mem_total"]).value)
+	log.NoticeF("mem used exporter : %f percent", (data.source["mem_exporter"]).value)
 }
 
 func GetLocalSystemSituation() (data []systemDetails) {

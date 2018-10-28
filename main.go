@@ -6,8 +6,10 @@ import (
 )
 
 func main() {
+	configuration := extract_data.ReadConfiguration()
+
 	http.HandleFunc("/metrics", func (w http.ResponseWriter, r *http.Request) {
-		extract_data.ExtractMetrics(w, r)
+		extract_data.ExtractMetrics(w, r, &configuration)
 	})
-	http.ListenAndServe(":2112", nil)
+	http.ListenAndServe(":" + configuration.Port, nil)
 }

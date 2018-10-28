@@ -7,24 +7,30 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func (data *Data) GetDataFromZWay() {
-	res, err := http.Get(data.Conf.ZwayServer)
+	timeout := time.Duration(30 * time.Second)
+	client := http.Client{
+		Timeout: timeout,
+	}
+	res, err := client.Get(data.Conf.ZwayServer)
 	if err != nil {
 		fmt.Println("There was a get site error:", err)
-	}
+	} else {
 
-	temp, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println("There was a read error:", err)
-	}
+		temp, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			fmt.Println("There was a read error:", err)
+		}
 
-	res.Body.Close()
+		res.Body.Close()
 
-	err = json.Unmarshal(temp, &data.Json)
-	if err != nil {
-		fmt.Println("There was an error:", err)
+		err = json.Unmarshal(temp, &data.Json)
+		if err != nil {
+			fmt.Println("There was an error:", err)
+		}
 	}
 }
 
@@ -84,7 +90,6 @@ func (data *Data) ExtractElements() {
 					if instanceContent.CommandClasses.Class48.Data.Data6 != (CommandClass48DataValBool{}) {
 						element := new(ElementDetails)
 						element.Unit = "Flood"
-						fmt.Println("Flood : %+v", instanceContent.CommandClasses.Class48.Data.Data6.Level.Value)
 						element.value = BoolToIntensity(instanceContent.CommandClasses.Class48.Data.Data6.Level.Value)
 						element.Name = trim(values[0])
 						element.Room = trim(values[1])
@@ -94,14 +99,13 @@ func (data *Data) ExtractElements() {
 					if instanceContent.CommandClasses.Class48.Data.Data8 != (CommandClass48DataValBool{}) {
 						element := new(ElementDetails)
 						element.Unit = "Tempered"
-						fmt.Println("Tempered : %+v", instanceContent.CommandClasses.Class48.Data.Data8.Level.Value)
 						element.value = BoolToIntensity(instanceContent.CommandClasses.Class48.Data.Data8.Level.Value)
 						element.Name = trim(values[0])
 						element.Room = trim(values[1])
 						element.Type = trim(values[2])
 						data.Element = append(data.Element, *element)
 					}
-			}
+				}
 				if instanceContent.CommandClasses.Class37 != (CommandClass37{}) {
 					element := new(ElementDetails)
 					element.Unit = "Level"
@@ -114,5 +118,5 @@ func (data *Data) ExtractElements() {
 			}
 		}
 	}
-	fmt.Printf("Devices found : %+v", data.Element)
+	// fmt.Printf("Devices found : %+v", data.Element)
 }

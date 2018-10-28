@@ -40,6 +40,7 @@ type CommandClass48Data struct {
 }
 
 type CommandClass48DataValBool struct {
+	Type string `json:"type,omitempty"`
 	Level CommandClassBoolValues `json:"level,omitempty"`
 }
 
@@ -54,6 +55,7 @@ type CommandClass49Data struct {
 }
 
 type CommandClass49DataVal struct {
+	Type string `json:"type,omitempty"`
 	Val CommandClassFloatValues `json:"val,omitempty"`
 }
 

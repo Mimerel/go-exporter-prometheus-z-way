@@ -1,31 +1,35 @@
-package extract_data
+package extractSystemData
 
 import (
 	"fmt"
+	"github.com/prometheus/common/log"
+	"go-exporter-prometheus-z-way/extract_data/configuration"
 	"os/exec"
 	"strings"
 )
 
-func (data *Data) ExtractTotalCpuUsage(systemData []SystemDetails) {
-	data.source["cpu_total"] = &Summary{metric:"Cpu_total", value: 0}
-	data.source["mem_total"] = &Summary{metric: "Mem_total", value: 0}
-	for _, services := range data.configuration.FollowedServices {
-		data.source["cpu_" + services] = &Summary{metric: "Cpu_" + services, value: 0}
-		data.source["mem_" + services] = &Summary{metric: "Mem_" + services, value: 0}
+func ExtractTotalCpuUsage(systemData []SystemDetails, conf configuration.MainConfig) (map[string]*Summary) {
+	data := make(map[string]*Summary)
+	data["cpu_total"] = &Summary{ "Cpu_total",  0}
+	data["mem_total"] = &Summary{ "Mem_total", 0}
+	for _, services := range conf.FollowedServices {
+		data["cpu_" + services] = &Summary{ "Cpu_" + services,  0}
+		data["mem_" + services] = &Summary{"Mem_" + services, 0}
 	}
 	for _, value := range systemData {
-		data.source["cpu_total"].value = data.source["cpu_total"].value + value.cpu
-		data.source["mem_total"].value = data.source["mem_total"].value + value.mem
+		(data["cpu_total"]).Value = data["cpu_total"].Value + value.cpu
+		(data["mem_total"]).Value = data["mem_total"].Value + value.mem
 
-		for _, services := range data.configuration.FollowedServices {
+		for _, services := range conf.FollowedServices {
 
 			if strings.Index(strings.ToLower(value.command), strings.ToLower(services)) != -1 {
-				(data.source["cpu_" + services]).value = value.cpu
-				(data.source["mem_" + services]).value = value.mem
+				(data["cpu_" + services]).Value = value.cpu
+				(data["mem_" + services]).Value = value.mem
 			}
 		}
 
 	}
+	return data
 }
 
 func GetLocalSystemSituation() (data []SystemDetails) {

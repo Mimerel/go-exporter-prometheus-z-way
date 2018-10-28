@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2adb8037-4ad9-48a3-aded-2758cb1b5912" name="Default" comment="Initial version">
-      <change afterPath="$PROJECT_DIR$/extract_data/configuration.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extract_data/sytemData.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extract_data/configuration/models.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extract_data/extraction/models.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extract_data/zway.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extract_data/extract_data.go" beforeDir="false" afterPath="$PROJECT_DIR$/extract_data/extract_data.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extract_data/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/extract_data/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract_data/configuration.go" beforeDir="false" afterPath="$PROJECT_DIR$/extract_data/configuration/configuration.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract_data/extract_data.go" beforeDir="false" afterPath="$PROJECT_DIR$/extract_data/extraction/extract_data.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract_data/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/extract_data/extractSystemData/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract_data/sytemData.go" beforeDir="false" afterPath="$PROJECT_DIR$/extract_data/extractSystemData/systemData.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/getDependencies.sh" beforeDir="false" afterPath="$PROJECT_DIR$/getDependencies.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go-exporter-conf.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/go-exporter-conf.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -29,32 +31,32 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="getDependencies" value="8" />
-          <entry key="go" value="3808" />
-          <entry key="sh" value="17" />
+          <entry key="go" value="4822" />
+          <entry key="sh" value="19" />
           <entry key="yaml" value="219" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="3808" />
-          <entry key="PLAIN_TEXT" value="25" />
+          <entry key="Go" value="4822" />
+          <entry key="PLAIN_TEXT" value="27" />
           <entry key="YAML" value="219" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="getDependencies" value="1" />
-          <entry key="go" value="3" />
+          <entry key="go" value="9" />
           <entry key="iml" value="1" />
-          <entry key="sh" value="2" />
+          <entry key="sh" value="3" />
           <entry key="yaml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="3" />
+          <entry key="Go" value="9" />
           <entry key="IDEA_MODULE" value="1" />
-          <entry key="PLAIN_TEXT" value="3" />
+          <entry key="PLAIN_TEXT" value="4" />
           <entry key="YAML" value="1" />
         </counts>
       </usages-collector>
@@ -65,8 +67,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="240">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
               <folding>
                 <element signature="e#14#189#0" expanded="true" />
               </folding>
@@ -75,19 +77,61 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/extract_data/models.go">
+        <entry file="file://$PROJECT_DIR$/extract_data/extractSystemData/models.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+            <state relative-caret-position="285">
+              <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/extract_data/extract_data.go">
+        <entry file="file://$PROJECT_DIR$/extract_data/extraction/models.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
+            <state relative-caret-position="270">
+              <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+              <folding>
+                <element signature="e#27#146#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/extract_data/extractSystemData/systemData.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+              <folding>
+                <element signature="e#27#206#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/extract_data/configuration/models.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/extract_data/zway.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/extract_data/extraction/extract_data.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="27" column="32" lean-forward="true" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
               <folding>
                 <element signature="e#21#99#0" expanded="true" />
               </folding>
@@ -96,24 +140,21 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/extract_data/configuration.go">
+        <entry file="file://$PROJECT_DIR$/getDependencies.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" column="56" selection-start-line="25" selection-start-column="56" selection-end-line="25" selection-end-column="56" />
-              <folding>
-                <element signature="e#22#71#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="90">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/extract_data/sytemData.go">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/extract_data/configuration/configuration.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+            <state relative-caret-position="480">
+              <caret line="32" selection-start-line="32" selection-end-line="33" selection-end-column="1" />
               <folding>
-                <element signature="e#22#61#0" expanded="true" />
+                <element signature="e#22#71#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -123,14 +164,9 @@
         <entry file="file://$PROJECT_DIR$/go-exporter-conf.yaml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
-              <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+              <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/go-exporter-prometheus-z-way.iml">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -159,13 +195,27 @@
         <option value="$PROJECT_DIR$/extract_data/system-info.go" />
         <option value="$PROJECT_DIR$/getDependencies" />
         <option value="$PROJECT_DIR$/clone.sh" />
-        <option value="$PROJECT_DIR$/getDependencies.sh" />
-        <option value="$PROJECT_DIR$/extract_data/models.go" />
-        <option value="$PROJECT_DIR$/extract_data/extract_data.go" />
-        <option value="$PROJECT_DIR$/main.go" />
-        <option value="$PROJECT_DIR$/extract_data/configuration.go" />
         <option value="$PROJECT_DIR$/go-exporter-conf.yaml" />
         <option value="$PROJECT_DIR$/extract_data/sytemData.go" />
+        <option value="$PROJECT_DIR$/extract_data/models/models_systemData.go" />
+        <option value="$PROJECT_DIR$/extract_data/models/z-way.go" />
+        <option value="$PROJECT_DIR$/extract_data/models/zway.go" />
+        <option value="$PROJECT_DIR$/extract_data/zway.go" />
+        <option value="$PROJECT_DIR$/extract_data/models/systemData.go" />
+        <option value="$PROJECT_DIR$/extract_data/configuration.go" />
+        <option value="$PROJECT_DIR$/extract_data/configuration/models.go" />
+        <option value="$PROJECT_DIR$/extract_data/configuration/configuration.go" />
+        <option value="$PROJECT_DIR$/extract_data/systemData/systemData.go" />
+        <option value="$PROJECT_DIR$/extract_data/systemData/models.go" />
+        <option value="$PROJECT_DIR$/extract_data/models.go" />
+        <option value="$PROJECT_DIR$/extract_data/extract_data.go" />
+        <option value="$PROJECT_DIR$/getDependencies.sh" />
+        <option value="$PROJECT_DIR$/extract_data/Main/models.go" />
+        <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/extract_data/extraction/models.go" />
+        <option value="$PROJECT_DIR$/extract_data/extractSystemData/models.go" />
+        <option value="$PROJECT_DIR$/extract_data/extraction/extract_data.go" />
+        <option value="$PROJECT_DIR$/extract_data/extractSystemData/systemData.go" />
       </list>
     </option>
   </component>
@@ -201,6 +251,24 @@
               <item name="go-exporter-prometheus-z-way" type="462c0819:PsiDirectoryNode" />
               <item name="extract_data" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="go-exporter-prometheus-z-way" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-exporter-prometheus-z-way" type="462c0819:PsiDirectoryNode" />
+              <item name="extract_data" type="462c0819:PsiDirectoryNode" />
+              <item name="configuration" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-exporter-prometheus-z-way" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-exporter-prometheus-z-way" type="462c0819:PsiDirectoryNode" />
+              <item name="extract_data" type="462c0819:PsiDirectoryNode" />
+              <item name="extraction" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="go-exporter-prometheus-z-way" type="b2602c69:ProjectViewProjectNode" />
+              <item name="go-exporter-prometheus-z-way" type="462c0819:PsiDirectoryNode" />
+              <item name="extract_data" type="462c0819:PsiDirectoryNode" />
+              <item name="extractSystemData" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -223,9 +291,14 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/extract_data/Main" />
+      <recent name="$PROJECT_DIR$/extract_data/configuration" />
+      <recent name="$PROJECT_DIR$/extract_data/systemData" />
+      <recent name="$PROJECT_DIR$/extract_data" />
+      <recent name="$PROJECT_DIR$/extract_data/models" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/extract_data" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -342,24 +415,23 @@
       <workItem from="1539445031398" duration="1864000" />
       <workItem from="1539447107808" duration="330000" />
       <workItem from="1539447458206" duration="4488000" />
+      <workItem from="1540721112094" duration="18000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6682000" />
+    <option name="totallyTimeSpent" value="6700000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="959" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25885227" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24969475" />
       <window_info id="Structure" order="1" weight="0.25" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3298731" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -367,9 +439,9 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32871974" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3298731" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32871974" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -421,73 +493,105 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/go-exporter-prometheus-z-way.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clone.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="9" selection-start-column="9" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/getDependencies.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/extract_data/models.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/extract_data/extract_data.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="e#21#99#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="e#14#189#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/clone.sh" />
     <entry file="file://$PROJECT_DIR$/go-exporter-conf.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/extract_data/configuration.go">
+    <entry file="file://$PROJECT_DIR$/extract_data/models/z-way.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="56" selection-start-line="25" selection-start-column="56" selection-end-line="25" selection-end-column="56" />
+        <state>
+          <caret column="14" selection-start-column="14" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_data/zway.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="25" lean-forward="true" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_data/configuration/configuration.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" selection-start-line="32" selection-end-line="33" selection-end-column="1" />
           <folding>
             <element signature="e#22#71#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/extract_data/sytemData.go">
+    <entry file="file://$PROJECT_DIR$/go-exporter-prometheus-z-way.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/getDependencies.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_data/zway.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
           <folding>
-            <element signature="e#22#61#0" expanded="true" />
+            <element signature="e#14#189#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_data/configuration/models.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_data/extraction/models.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding>
+            <element signature="e#27#146#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_data/extractSystemData/models.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_data/extraction/extract_data.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="27" column="32" lean-forward="true" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+          <folding>
+            <element signature="e#21#99#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_data/extractSystemData/systemData.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+          <folding>
+            <element signature="e#27#206#0" expanded="true" />
           </folding>
         </state>
       </provider>

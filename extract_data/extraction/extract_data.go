@@ -30,7 +30,7 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 	runZway := false
 	runCpu := false
 
-	for k, v := range data.Configuration.ActivatedModules {
+	for _, v := range data.Configuration.ActivatedModules {
 		if v == "zway" {
 			runZway = true
 		}

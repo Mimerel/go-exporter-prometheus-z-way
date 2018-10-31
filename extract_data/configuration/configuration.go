@@ -13,7 +13,7 @@ var log, err = logger.New("test", 1, os.Stdout)
 func ReadConfiguration() (MainConfig){
 	pathToFile := os.Getenv("EXPORTER_CONFIGURATION_FILE")
 	if pathToFile == "" {
-		pathToFile = "go-exporter-conf.yaml"
+		pathToFile = "/home/pi/go/src/go-exporter-prometheus-z-way/go-exporter-conf.yaml"
 	}
 	yamlFile, err := ioutil.ReadFile(pathToFile)
 

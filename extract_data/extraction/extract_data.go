@@ -14,7 +14,6 @@ import (
 	"strings"
 )
 
-
 var log, err = logger.New("test", 1, os.Stdout)
 
 func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.MainConfig) {
@@ -28,36 +27,48 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 		data.Configuration.Host = "Anonymous"
 	}
 
+	runZway := false
+	runCpu := false
+
+	for k, v := range data.Configuration.ActivatedModules {
+		if v == "zway" {
+			runZway = true
+		}
+		if v == "systemData" {
+			runCpu = true
+		}
+	}
+
 	// Collecting System details
-	for _, v := range extractSystemData.ExtractTotalCpuUsage(*conf) {
-		v.Metric = strings.ToLower(strings.Replace( v.Name," ", "_", -1 ))
-		data.Source[v.Metric] = &models.ElementDetails{Name:v.Metric, Value: v.Value}
+	if runCpu {
+		for _, v := range extractSystemData.ExtractTotalCpuUsage(*conf) {
+			v.Metric = strings.ToLower(strings.Replace(v.Name, " ", "_", -1))
+			data.Source[v.Metric] = &models.ElementDetails{Name: v.Metric, Value: v.Value}
+		}
 	}
-
 	// Collecting Z-way metrics
-	for _,v := range extractZway.ExtractZWayMetrics(*conf) {
-		v.Metric = "zway_" + strings.ToLower(strings.Replace( v.Name," ", "_", -1 )) + "_" + extractZway.Trim(v.Unit)
-		data.Source[v.Metric] = &models.ElementDetails{Name:v.Metric, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit}
+	if runZway {
+		for _, v := range extractZway.ExtractZWayMetrics(*conf) {
+			v.Metric = "zway_" + strings.ToLower(strings.Replace(v.Name, " ", "_", -1)) + "_" + extractZway.Trim(v.Unit)
+			data.Source[v.Metric] = &models.ElementDetails{Name: v.Metric, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit}
+		}
 	}
-
 	// Creating metrics and populating them
 	for index, value := range data.Source {
 		if value.Type != "" {
 			data.Metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-				Name: value.Name, Help: value.Name, },[]string{"host","type","room", "unit", "name"})
+				Name: value.Name, Help: value.Name,}, []string{"host", "type", "room", "unit", "name"})
 			data.Registry.MustRegister(data.Metrics[index])
-			data.Metrics[index].WithLabelValues(data.Configuration.Host, value.Type, value.Room, value.Unit, value.Name).Add(math.Round(value.Value*100)/100)
+			data.Metrics[index].WithLabelValues(data.Configuration.Host, value.Type, value.Room, value.Unit, value.Name).Add(math.Round(value.Value*100) / 100)
 
 		} else {
 			data.Metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-				Name: value.Name, Help: value.Name, },[]string{"host",})
+				Name: value.Name, Help: value.Name,}, []string{"host",})
 			data.Registry.MustRegister(data.Metrics[index])
-			data.Metrics[index].WithLabelValues(data.Configuration.Host).Add(math.Round(value.Value*100)/100)
+			data.Metrics[index].WithLabelValues(data.Configuration.Host).Add(math.Round(value.Value*100) / 100)
 		}
 	}
-
 
 	h := promhttp.HandlerFor(data.Registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
 }
-

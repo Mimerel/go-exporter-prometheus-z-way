@@ -36,7 +36,7 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 
 	// Collecting Z-way metrics
 	for _,v := range extractZway.ExtractZWayMetrics(*conf) {
-		v.Metric = "zway_" + strings.ToLower(strings.Replace( v.Name," ", "_", -1 ))
+		v.Metric = "zway_" + strings.ToLower(strings.Replace( v.Name," ", "_", -1 )) + "_" + extractZway.Trim(v.Unit)
 		data.Source[v.Metric] = &models.ElementDetails{Name:v.Metric, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit}
 	}
 

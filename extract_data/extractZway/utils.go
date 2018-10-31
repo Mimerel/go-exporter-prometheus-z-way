@@ -5,12 +5,12 @@ import (
 )
 
 func trim(value string) (string) {
-	return strings.TrimSpace(value)
+	return strings.TrimSpace(strings.ToLower(value))
 }
 
 func (data *Data) validTypes(value string) (bool) {
 	for _, x := range data.Conf.DeviceTypes {
-		if x == trim(value) {
+		if strings.ToLower(x) == trim(value) {
 			return true
 		}
 	}

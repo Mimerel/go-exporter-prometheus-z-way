@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go-exporter-prometheus-z-way/extract_data/configuration"
+	"go-exporter-prometheus-z-way/extract_data/models"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -34,12 +35,12 @@ func (data *Data) GetDataFromZWay() {
 	}
 }
 
-func ExtractZWayMetrics(conf configuration.MainConfig) (map[string]*Summary) {
+func ExtractZWayMetrics(conf configuration.MainConfig) ([]models.ElementDetails) {
 	var data Data
 	data.Conf = conf
 	data.GetDataFromZWay()
 	data.ExtractElements()
-	return nil
+	return data.Element
 }
 
 func (data *Data) ExtractElements() {
@@ -48,9 +49,9 @@ func (data *Data) ExtractElements() {
 		if len(values) >= 3 && data.validTypes(values[2]) {
 			for _, instanceContent := range v.Instances {
 				if instanceContent.CommandClasses.Class50 != (CommandClass50{}) {
-					element := new(ElementDetails)
+					element := new(models.ElementDetails)
 					element.Unit = "Watt"
-					element.value = instanceContent.CommandClasses.Class50.Data.Data0.Val.Value
+					element.Value = instanceContent.CommandClasses.Class50.Data.Data0.Val.Value
 					element.Name = trim(values[0])
 					element.Room = trim(values[1])
 					element.Type = trim(values[2])
@@ -58,18 +59,18 @@ func (data *Data) ExtractElements() {
 				}
 				if instanceContent.CommandClasses.Class49 != (CommandClass49{}) {
 					if instanceContent.CommandClasses.Class49.Data.Data1 != (CommandClass49DataVal{}) {
-						element := new(ElementDetails)
+						element := new(models.ElementDetails)
 						element.Unit = "Degré"
-						element.value = instanceContent.CommandClasses.Class49.Data.Data1.Val.Value
+						element.Value = instanceContent.CommandClasses.Class49.Data.Data1.Val.Value
 						element.Name = trim(values[0])
 						element.Room = trim(values[1])
 						element.Type = trim(values[2])
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class49.Data.Data5 != (CommandClass49DataVal{}) {
-						element := new(ElementDetails)
+						element := new(models.ElementDetails)
 						element.Unit = "Humidité"
-						element.value = instanceContent.CommandClasses.Class49.Data.Data5.Val.Value
+						element.Value = instanceContent.CommandClasses.Class49.Data.Data5.Val.Value
 						element.Name = trim(values[0])
 						element.Room = trim(values[1])
 						element.Type = trim(values[2])
@@ -78,28 +79,27 @@ func (data *Data) ExtractElements() {
 				}
 				if instanceContent.CommandClasses.Class48 != (CommandClass48{}) {
 					if instanceContent.CommandClasses.Class48.Data.Data1 != (CommandClass48DataValBool{}) {
-						element := new(ElementDetails)
+						element := new(models.ElementDetails)
 						element.Unit = "Alarm"
-						fmt.Println("Alarm : %+v", instanceContent.CommandClasses.Class48.Data.Data1.Level.Value)
-						element.value = BoolToIntensity(instanceContent.CommandClasses.Class48.Data.Data1.Level.Value)
+						element.Value = BoolToIntensity(instanceContent.CommandClasses.Class48.Data.Data1.Level.Value)
 						element.Name = trim(values[0])
 						element.Room = trim(values[1])
 						element.Type = trim(values[2])
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class48.Data.Data6 != (CommandClass48DataValBool{}) {
-						element := new(ElementDetails)
+						element := new(models.ElementDetails)
 						element.Unit = "Flood"
-						element.value = BoolToIntensity(instanceContent.CommandClasses.Class48.Data.Data6.Level.Value)
+						element.Value = BoolToIntensity(instanceContent.CommandClasses.Class48.Data.Data6.Level.Value)
 						element.Name = trim(values[0])
 						element.Room = trim(values[1])
 						element.Type = trim(values[2])
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class48.Data.Data8 != (CommandClass48DataValBool{}) {
-						element := new(ElementDetails)
+						element := new(models.ElementDetails)
 						element.Unit = "Tempered"
-						element.value = BoolToIntensity(instanceContent.CommandClasses.Class48.Data.Data8.Level.Value)
+						element.Value = BoolToIntensity(instanceContent.CommandClasses.Class48.Data.Data8.Level.Value)
 						element.Name = trim(values[0])
 						element.Room = trim(values[1])
 						element.Type = trim(values[2])
@@ -107,9 +107,9 @@ func (data *Data) ExtractElements() {
 					}
 				}
 				if instanceContent.CommandClasses.Class37 != (CommandClass37{}) {
-					element := new(ElementDetails)
+					element := new(models.ElementDetails)
 					element.Unit = "Level"
-					element.value = BoolToIntensity(instanceContent.CommandClasses.Class37.Data.Level.Value)
+					element.Value = BoolToIntensity(instanceContent.CommandClasses.Class37.Data.Level.Value)
 					element.Name = trim(values[0])
 					element.Room = trim(values[1])
 					element.Type = trim(values[2])

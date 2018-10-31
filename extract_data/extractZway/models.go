@@ -1,6 +1,9 @@
 package extractZway
 
-import "go-exporter-prometheus-z-way/extract_data/configuration"
+import (
+	"go-exporter-prometheus-z-way/extract_data/configuration"
+	"go-exporter-prometheus-z-way/extract_data/models"
+)
 
 type Controller  struct {
 	UpdateTime int `json:"updateTime,omitempty"`
@@ -104,21 +107,8 @@ type DeviceValuesNumber struct {
 	UpdateTime     int `json:"updateTime,omitempty"`
 }
 
-type Summary struct {
-	Metric string
-	Value  float64
-}
-
 type Data struct {
 	Json Controller
 	Conf configuration.MainConfig
-	Element []ElementDetails
-}
-
-type ElementDetails struct {
-	Name string
-	Room string
-	Type string
-	Unit string
-	value float64
+	Element []models.ElementDetails
 }

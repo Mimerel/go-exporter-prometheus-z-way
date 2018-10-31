@@ -4,28 +4,37 @@ import (
 	"fmt"
 	"github.com/prometheus/common/log"
 	"go-exporter-prometheus-z-way/extract_data/configuration"
+	"go-exporter-prometheus-z-way/extract_data/models"
 	"os/exec"
 	"strings"
 )
 
-func ExtractTotalCpuUsage(conf configuration.MainConfig) (map[string]*Summary) {
+func updateValue(data *[]models.ElementDetails, name string, value float64) {
+	for _, v := range *data {
+		if v.Name == name {
+			v.Value = value
+		}
+	}
+}
+
+func ExtractTotalCpuUsage(conf configuration.MainConfig) ([]models.ElementDetails) {
 	systemData := GetLocalSystemSituation()
-	data := make(map[string]*Summary)
-	data["cpu_total"] = &Summary{ "Cpu_total",  0}
-	data["mem_total"] = &Summary{ "Mem_total", 0}
+	var data []models.ElementDetails
+	data = append(data, models.ElementDetails{ Name: "Cpu_total",  Value:0})
+	data = append(data, models.ElementDetails{ Name: "Mem_total", Value:0})
 	for _, services := range conf.FollowedServices {
-		data["cpu_" + services] = &Summary{ "Cpu_" + services,  0}
-		data["mem_" + services] = &Summary{"Mem_" + services, 0}
+		data = append(data, models.ElementDetails{ Name:"Cpu_" + services,  Value: 0})
+		data = append(data, models.ElementDetails{Name:"Mem_" + services, Value: 0})
 	}
 	for _, value := range systemData {
-		(data["cpu_total"]).Value = data["cpu_total"].Value + value.cpu
-		(data["mem_total"]).Value = data["mem_total"].Value + value.mem
+		data[0].Value = data[0].Value + value.cpu
+		data[1].Value = data[1].Value + value.mem
 
 		for _, services := range conf.FollowedServices {
 
 			if strings.Index(strings.ToLower(value.command), strings.ToLower(services)) != -1 {
-				(data["cpu_" + services]).Value = value.cpu
-				(data["mem_" + services]).Value = value.mem
+				updateValue(&data ,"Cpu_" + services, value.cpu )
+				updateValue(&data ,"Mem_" + services, value.mem )
 			}
 		}
 

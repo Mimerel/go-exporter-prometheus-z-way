@@ -14,11 +14,4 @@ type SystemDetails struct {
 	command string
 }
 
-type Summary struct {
-	Metric string
-	Value  float64
-}
-
-
-
 

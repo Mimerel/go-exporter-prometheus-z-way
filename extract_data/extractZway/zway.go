@@ -51,7 +51,7 @@ func (data *Data) ExtractElements() {
 				if instanceContent.CommandClasses.Class50 != (CommandClass50{}) {
 					element := new(models.ElementDetails)
 					element.Unit = "Watt"
-					element.Value = instanceContent.CommandClasses.Class50.Data.Data0.Val.Value
+					element.Value = instanceContent.CommandClasses.Class50.Data.Data2.Val.Value
 					element.Name = Trim(values[0])
 					element.Room = Trim(values[1])
 					element.Type = Trim(values[2])

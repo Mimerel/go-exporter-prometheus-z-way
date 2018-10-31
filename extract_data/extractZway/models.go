@@ -68,7 +68,7 @@ type CommandClass50 struct {
 }
 
 type CommandClass50Data struct {
-	Data0 CommandClass50DataVal `json:"0,omitempty"`
+	Data2 CommandClass50DataVal `json:"2,omitempty"`
 }
 
 type CommandClass50DataVal struct {

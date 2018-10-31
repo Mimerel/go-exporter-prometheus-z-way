@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2adb8037-4ad9-48a3-aded-2758cb1b5912" name="Default" comment="Initial version">
-      <change beforePath="$PROJECT_DIR$/extract_data/extraction/extract_data.go" beforeDir="false" afterPath="$PROJECT_DIR$/extract_data/extraction/extract_data.go" afterDir="false" />
-    </list>
+    <list default="true" id="2adb8037-4ad9-48a3-aded-2758cb1b5912" name="Default" comment="Initial version" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,6 +13,7 @@
     <session id="-172857849">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.opened" value="1" />
         </counts>
@@ -22,14 +21,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="getDependencies" value="8" />
-          <entry key="go" value="8575" />
+          <entry key="go" value="8576" />
           <entry key="sh" value="31" />
           <entry key="yaml" value="334" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="8575" />
+          <entry key="Go" value="8576" />
           <entry key="PLAIN_TEXT" value="39" />
           <entry key="YAML" value="334" />
         </counts>
@@ -73,8 +72,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/extract_data/extraction/extract_data.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="39" column="5" lean-forward="true" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+            <state relative-caret-position="467">
+              <caret line="54" column="5" lean-forward="true" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
               <folding>
                 <element signature="e#20#377#0" expanded="true" />
               </folding>
@@ -677,8 +676,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/extract_data/extraction/extract_data.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="39" column="5" lean-forward="true" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+        <state relative-caret-position="467">
+          <caret line="54" column="5" lean-forward="true" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
           <folding>
             <element signature="e#20#377#0" expanded="true" />
           </folding>

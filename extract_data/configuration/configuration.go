@@ -1,10 +1,14 @@
-package extract_data
+package configuration
 
 import (
+	"github.com/apsdehal/go-logger"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 )
+
+var log, err = logger.New("test", 1, os.Stdout)
+
 
 func ReadConfiguration() (MainConfig){
 	pathToFile := os.Getenv("EXPORTER_CONFIGURATION_FILE")

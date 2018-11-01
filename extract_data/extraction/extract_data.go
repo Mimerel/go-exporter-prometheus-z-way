@@ -50,7 +50,7 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 	if runZway {
 		for _, v := range extractZway.ExtractZWayMetrics(*conf) {
 			v.Metric = "zway_" + strings.ToLower(strings.Replace(v.Name, " ", "_", -1)) + "_" + extractZway.Trim(v.Unit) + "_" + v.Instance
-			data.Source[v.Metric] = &models.ElementDetails{Name: v.Metric, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit, Instance: v.Instance}
+			data.Source[v.Metric] = &models.ElementDetails{Name: v.Name, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit, Instance: v.Instance}
 		}
 	}
 	// Creating metrics and populating them

@@ -49,23 +49,22 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 	// Collecting Z-way metrics
 	if runZway {
 		for _, v := range extractZway.ExtractZWayMetrics(*conf) {
-			v.Metric = "zway_" + strings.ToLower(strings.Replace(v.Name, " ", "_", -1)) + "_" + extractZway.Trim(v.Unit)
-			data.Source[v.Metric] = &models.ElementDetails{Name: v.Metric, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit}
+			v.Metric = "zway_" + strings.ToLower(strings.Replace(v.Name, " ", "_", -1)) + "_" + extractZway.Trim(v.Unit) + "_" + v.Instance
+			data.Source[v.Metric] = &models.ElementDetails{Name: v.Metric, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit, Instance: v.Instance}
 		}
 	}
 	// Creating metrics and populating them
 	for index, value := range data.Source {
 		if value.Type != "" {
 			data.Metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-				Name: value.Name, Help: value.Name,}, []string{"host", "type", "room", "unit", "name"})
+				Name: index, Help: index,}, []string{"host", "type", "room", "unit", "name", "instance"})
 			data.Registry.MustRegister(data.Metrics[index])
-			data.Metrics[index].WithLabelValues(data.Configuration.Host, value.Type, value.Room, value.Unit, value.Name).Add(math.Round(value.Value*100) / 100)
-
+			data.Metrics[index].WithLabelValues(data.Configuration.Host, value.Type, value.Room, value.Unit, value.Name, value.Instance).Set(math.Round(value.Value*100) / 100)
 		} else {
 			data.Metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-				Name: value.Name, Help: value.Name,}, []string{"host",})
+				Name: index, Help: index,}, []string{"host",})
 			data.Registry.MustRegister(data.Metrics[index])
-			data.Metrics[index].WithLabelValues(data.Configuration.Host).Add(math.Round(value.Value*100) / 100)
+			data.Metrics[index].WithLabelValues(data.Configuration.Host).Set(math.Round(value.Value*100) / 100)
 		}
 	}
 

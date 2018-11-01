@@ -6,6 +6,7 @@ import (
 	"go-exporter-prometheus-z-way/extract_data/configuration"
 	"go-exporter-prometheus-z-way/extract_data/models"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -30,7 +31,12 @@ func (data *Data) GetDataFromZWay() {
 
 		err = json.Unmarshal(temp, &data.Json)
 		if err != nil {
-			fmt.Println("There was an error:", err)
+			log.Printf("error decoding sakura response: %v", err)
+			if e, ok := err.(*json.SyntaxError); ok {
+				log.Printf("syntax error at byte offset %d", e.Offset)
+			}
+			log.Printf("sakura response: %q", temp)
+			// fmt.Println("There was an Json to Structure error: ", err)
 		}
 	}
 }
@@ -47,16 +53,38 @@ func (data *Data) ExtractElements() {
 	for _, v := range data.Json.Devices {
 		values := strings.Split(v.Data.GivenName.Value, "|")
 		if len(values) >= 3 && data.validTypes(values[2]) {
-			for _, instanceContent := range v.Instances {
+			for instanceKey, instanceContent := range v.Instances {
 				if instanceContent.CommandClasses.Class50 != (CommandClass50{}) {
-					element := new(models.ElementDetails)
-					element.Unit = "Watt"
-					element.Value = instanceContent.CommandClasses.Class50.Data.Data2.Val.Value
-					element.Name = Trim(values[0])
-					element.Room = Trim(values[1])
-					element.Type = Trim(values[2])
-					data.Element = append(data.Element, *element)
-				}
+					if instanceContent.CommandClasses.Class50.Data.Data2 != (CommandClass50DataVal{}) {
+						element := new(models.ElementDetails)
+						element.Unit = "Watt"
+						element.Value = instanceContent.CommandClasses.Class50.Data.Data2.Val.Value
+						element.Name = Trim(values[0])
+						element.Room = Trim(values[1])
+						element.Type = Trim(values[2])
+						element.Instance = instanceKey
+						data.Element = append(data.Element, *element)
+					}
+					if instanceContent.CommandClasses.Class50.Data.Data4 != (CommandClass50DataVal{}) {
+						element := new(models.ElementDetails)
+						element.Unit = "Volts"
+						element.Value = instanceContent.CommandClasses.Class50.Data.Data4.Val.Value
+						element.Name = Trim(values[0])
+						element.Room = Trim(values[1])
+						element.Type = Trim(values[2])
+						element.Instance = instanceKey
+						data.Element = append(data.Element, *element)
+					}
+					if instanceContent.CommandClasses.Class50.Data.Data5 != (CommandClass50DataVal{}) {
+						element := new(models.ElementDetails)
+						element.Unit = "Ampères"
+						element.Value = instanceContent.CommandClasses.Class50.Data.Data5.Val.Value
+						element.Name = Trim(values[0])
+						element.Room = Trim(values[1])
+						element.Type = Trim(values[2])
+						element.Instance = instanceKey
+						data.Element = append(data.Element, *element)
+					}				}
 				if instanceContent.CommandClasses.Class49 != (CommandClass49{}) {
 					if instanceContent.CommandClasses.Class49.Data.Data1 != (CommandClass49DataVal{}) {
 						element := new(models.ElementDetails)
@@ -65,6 +93,17 @@ func (data *Data) ExtractElements() {
 						element.Name = Trim(values[0])
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
+						element.Instance = instanceKey
+						data.Element = append(data.Element, *element)
+					}
+					if instanceContent.CommandClasses.Class49.Data.Data3 != (CommandClass49DataVal{}) {
+						element := new(models.ElementDetails)
+						element.Unit = "Lux"
+						element.Value = instanceContent.CommandClasses.Class49.Data.Data3.Val.Value
+						element.Name = Trim(values[0])
+						element.Room = Trim(values[1])
+						element.Type = Trim(values[2])
+						element.Instance = instanceKey
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class49.Data.Data5 != (CommandClass49DataVal{}) {
@@ -74,6 +113,7 @@ func (data *Data) ExtractElements() {
 						element.Name = Trim(values[0])
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
+						element.Instance = instanceKey
 						data.Element = append(data.Element, *element)
 					}
 				}
@@ -85,6 +125,7 @@ func (data *Data) ExtractElements() {
 						element.Name = Trim(values[0])
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
+						element.Instance = instanceKey
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class48.Data.Data6 != (CommandClass48DataValBool{}) {
@@ -94,6 +135,7 @@ func (data *Data) ExtractElements() {
 						element.Name = Trim(values[0])
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
+						element.Instance = instanceKey
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class48.Data.Data8 != (CommandClass48DataValBool{}) {
@@ -103,6 +145,7 @@ func (data *Data) ExtractElements() {
 						element.Name = Trim(values[0])
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
+						element.Instance = instanceKey
 						data.Element = append(data.Element, *element)
 					}
 				}
@@ -113,6 +156,17 @@ func (data *Data) ExtractElements() {
 					element.Name = Trim(values[0])
 					element.Room = Trim(values[1])
 					element.Type = Trim(values[2])
+					element.Instance = instanceKey
+					data.Element = append(data.Element, *element)
+				}
+				if instanceContent.CommandClasses.Class38 != (CommandClass38{}) {
+					element := new(models.ElementDetails)
+					element.Unit = "Level"
+					element.Value = instanceContent.CommandClasses.Class38.Data.Level.Value
+					element.Name = Trim(values[0])
+					element.Room = Trim(values[1])
+					element.Type = Trim(values[2])
+					element.Instance = instanceKey
 					data.Element = append(data.Element, *element)
 				}
 			}

@@ -26,9 +26,20 @@ type DeviceInstances struct {
 
 type DeviceInstancesCommandClass struct {
 	Class37 CommandClass37 `json:"37,omitempty"`
+	Class38 CommandClass38 `json:"38,omitempty"`
 	Class48 CommandClass48 `json:"48,omitempty"`
 	Class49 CommandClass49 `json:"49,omitempty"`
 	Class50 CommandClass50 `json:"50,omitempty"`
+}
+
+type CommandClass38 struct {
+	Name string `json:"name,omitempty"`
+	Data CommandClass38DataValFloat `json:"data,omitempty"`
+}
+
+type CommandClass38DataValFloat struct {
+	Type string `json:"type,omitempty"`
+	Level CommandClassFloatValues `json:"level,omitempty"`
 }
 
 type CommandClass48 struct {
@@ -54,6 +65,7 @@ type CommandClass49 struct {
 
 type CommandClass49Data struct {
 	Data1 CommandClass49DataVal `json:"1,omitempty"`
+	Data3 CommandClass49DataVal `json:"3,omitempty"`
 	Data5 CommandClass49DataVal `json:"5,omitempty"`
 }
 
@@ -69,6 +81,8 @@ type CommandClass50 struct {
 
 type CommandClass50Data struct {
 	Data2 CommandClass50DataVal `json:"2,omitempty"`
+	Data4 CommandClass50DataVal `json:"4,omitempty"`
+	Data5 CommandClass50DataVal `json:"5,omitempty"`
 }
 
 type CommandClass50DataVal struct {

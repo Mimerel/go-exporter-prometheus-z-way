@@ -6,5 +6,6 @@ type ElementDetails struct {
 	Room string
 	Type string
 	Unit string
+	Instance string
 	Value float64
 }

@@ -7,5 +7,8 @@ type ElementDetails struct {
 	Type string
 	Unit string
 	Instance string
+	Id string
+	IdInstance string
+	Ignore bool
 	Value float64
 }

@@ -1,6 +1,7 @@
 package extraction
 
 import (
+	"fmt"
 	"github.com/apsdehal/go-logger"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -49,18 +50,21 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 	// Collecting Z-way metrics
 	if runZway {
 		for _, v := range extractZway.ExtractZWayMetrics(*conf) {
+			overrideValues(*conf, &v)
 			v.Metric = "zway_" + strings.ToLower(strings.Replace(v.Name, " ", "_", -1)) + "_" + extractZway.Trim(v.Unit) + "_" + v.Instance
-			data.Source[v.Metric] = &models.ElementDetails{Name: v.Name, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit, Instance: v.Instance}
+			data.Source[v.Metric] = &models.ElementDetails{Name: v.Name, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit, Instance: v.Instance,
+			IdInstance: v.Id + "_" + v.Instance, Id: v.Id, Ignore: v.Ignore}
 		}
 	}
 	// Creating metrics and populating them
 	for index, value := range data.Source {
-		if value.Type != "" {
+		if value.Type != "" && value.Ignore == false {
 			data.Metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-				Name: index, Help: index,}, []string{"host", "type", "room", "unit", "name", "instance"})
+				Name: index, Help: index,}, []string{"host", "type", "room", "unit", "name", "instance", "id"})
 			data.Registry.MustRegister(data.Metrics[index])
-			data.Metrics[index].WithLabelValues(data.Configuration.Host, value.Type, value.Room, value.Unit, value.Name, value.Instance).Set(math.Round(value.Value*100) / 100)
-		} else {
+			data.Metrics[index].WithLabelValues(data.Configuration.Host, value.Type, value.Room, value.Unit, value.Name, value.Instance, value.Id).
+				Set(math.Round(value.Value*100) / 100)
+		} else if value.Type == "" {
 			data.Metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 				Name: index, Help: index,}, []string{"host",})
 			data.Registry.MustRegister(data.Metrics[index])
@@ -70,4 +74,27 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 
 	h := promhttp.HandlerFor(data.Registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
+}
+
+
+func overrideValues(conf configuration.MainConfig, value *models.ElementDetails) {
+	if conf.DeviceConfiguration[value.IdInstance]!= (configuration.DeviceConf{}) {
+		overrideElements := conf.DeviceConfiguration[value.IdInstance]
+		fmt.Printf("Override Values %+v", overrideElements)
+		if overrideElements.Type != "" {
+			value.Type = extractZway.Trim(overrideElements.Type)
+		}
+		if overrideElements.Unit != "" {
+			value.Unit = extractZway.Trim(overrideElements.Unit)
+		}
+		if overrideElements.Name != "" {
+			value.Name = extractZway.Trim(overrideElements.Name)
+		}
+		if overrideElements.Room != "" {
+			value.Room = extractZway.Trim(overrideElements.Room)
+		}
+		if overrideElements.Ignore == true {
+			value.Ignore = true
+		}
+	}
 }

@@ -50,7 +50,7 @@ func ExtractZWayMetrics(conf configuration.MainConfig) ([]models.ElementDetails)
 }
 
 func (data *Data) ExtractElements() {
-	for _, v := range data.Json.Devices {
+	for deviceId, v := range data.Json.Devices {
 		values := strings.Split(v.Data.GivenName.Value, "|")
 		if len(values) >= 3 && data.validTypes(values[2]) {
 			for instanceKey, instanceContent := range v.Instances {
@@ -62,6 +62,8 @@ func (data *Data) ExtractElements() {
 						element.Name = Trim(values[0])
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
+						element.Id = deviceId
+						element.IdInstance = deviceId + "_" + instanceKey
 						element.Instance = instanceKey
 						data.Element = append(data.Element, *element)
 					}
@@ -72,6 +74,8 @@ func (data *Data) ExtractElements() {
 						element.Name = Trim(values[0])
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
+						element.Id = deviceId
+						element.IdInstance = deviceId + "_" + instanceKey
 						element.Instance = instanceKey
 						data.Element = append(data.Element, *element)
 					}
@@ -82,9 +86,12 @@ func (data *Data) ExtractElements() {
 						element.Name = Trim(values[0])
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
+						element.IdInstance = deviceId + "_" + instanceKey
 						element.Instance = instanceKey
+						element.Id = deviceId
 						data.Element = append(data.Element, *element)
-					}				}
+					}
+				}
 				if instanceContent.CommandClasses.Class49 != (CommandClass49{}) {
 					if instanceContent.CommandClasses.Class49.Data.Data1 != (CommandClass49DataVal{}) {
 						element := new(models.ElementDetails)
@@ -94,6 +101,8 @@ func (data *Data) ExtractElements() {
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
 						element.Instance = instanceKey
+						element.IdInstance = deviceId + "_" + instanceKey
+						element.Id = deviceId
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class49.Data.Data3 != (CommandClass49DataVal{}) {
@@ -104,6 +113,8 @@ func (data *Data) ExtractElements() {
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
 						element.Instance = instanceKey
+						element.IdInstance = deviceId + "_" + instanceKey
+						element.Id = deviceId
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class49.Data.Data5 != (CommandClass49DataVal{}) {
@@ -114,6 +125,8 @@ func (data *Data) ExtractElements() {
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
 						element.Instance = instanceKey
+						element.IdInstance = deviceId + "_" + instanceKey
+						element.Id = deviceId
 						data.Element = append(data.Element, *element)
 					}
 				}
@@ -126,6 +139,8 @@ func (data *Data) ExtractElements() {
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
 						element.Instance = instanceKey
+						element.Id = deviceId
+						element.IdInstance = deviceId + "_" + instanceKey
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class48.Data.Data6 != (CommandClass48DataValBool{}) {
@@ -136,6 +151,8 @@ func (data *Data) ExtractElements() {
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
 						element.Instance = instanceKey
+						element.Id = deviceId
+						element.IdInstance = deviceId + "_" + instanceKey
 						data.Element = append(data.Element, *element)
 					}
 					if instanceContent.CommandClasses.Class48.Data.Data8 != (CommandClass48DataValBool{}) {
@@ -146,6 +163,8 @@ func (data *Data) ExtractElements() {
 						element.Room = Trim(values[1])
 						element.Type = Trim(values[2])
 						element.Instance = instanceKey
+						element.Id = deviceId
+						element.IdInstance = deviceId + "_" + instanceKey
 						data.Element = append(data.Element, *element)
 					}
 				}
@@ -157,6 +176,8 @@ func (data *Data) ExtractElements() {
 					element.Room = Trim(values[1])
 					element.Type = Trim(values[2])
 					element.Instance = instanceKey
+					element.Id = deviceId
+					element.IdInstance = deviceId + "_" + instanceKey
 					data.Element = append(data.Element, *element)
 				}
 				if instanceContent.CommandClasses.Class38 != (CommandClass38{}) {
@@ -167,6 +188,8 @@ func (data *Data) ExtractElements() {
 					element.Room = Trim(values[1])
 					element.Type = Trim(values[2])
 					element.Instance = instanceKey
+					element.Id = deviceId
+					element.IdInstance = deviceId + "_" + instanceKey
 					data.Element = append(data.Element, *element)
 				}
 			}

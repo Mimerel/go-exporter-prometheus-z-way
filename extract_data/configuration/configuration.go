@@ -1,14 +1,12 @@
 package configuration
 
 import (
-	"github.com/apsdehal/go-logger"
+	"fmt"
+	"go-exporter-prometheus-z-way/extract_data/logs"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 )
-
-var log, err = logger.New("test", 1, os.Stdout)
-
 
 func ReadConfiguration() (MainConfig){
 	pathToFile := os.Getenv("EXPORTER_CONFIGURATION_FILE")
@@ -27,8 +25,7 @@ func ReadConfiguration() (MainConfig){
 	if err != nil {
 		panic(err)
 	} else {
-		log.NoticeF("Configuration Loaded : %+v", config)
+		logs.Info(config.Logger, config.Host, fmt.Sprint("Configuration Loaded : %s", config))
 	}
 	return config
-
 }

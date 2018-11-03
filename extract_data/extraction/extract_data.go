@@ -2,22 +2,20 @@ package extraction
 
 import (
 	"fmt"
-	"github.com/apsdehal/go-logger"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go-exporter-prometheus-z-way/extract_data/configuration"
 	"go-exporter-prometheus-z-way/extract_data/extractSystemData"
 	"go-exporter-prometheus-z-way/extract_data/extractZway"
+	"go-exporter-prometheus-z-way/extract_data/logs"
 	"go-exporter-prometheus-z-way/extract_data/models"
 	"math"
 	"net/http"
-	"os"
 	"strings"
 )
 
-var log, err = logger.New("test", 1, os.Stdout)
-
 func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.MainConfig) {
+	logs.Info(conf.Logger, conf.Host, fmt.Sprint("New Request for metrics"))
 	data := new(Data)
 	data.Registry = prometheus.NewRegistry()
 	data.Metrics = make(map[string]*prometheus.GaugeVec)
@@ -74,13 +72,15 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 
 	h := promhttp.HandlerFor(data.Registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
+	logs.Info(conf.Logger, conf.Host, fmt.Sprint("New Request for metrics Successful"))
 }
 
 
 func overrideValues(conf configuration.MainConfig, value *models.ElementDetails) {
 	if conf.DeviceConfiguration[value.IdInstance]!= (configuration.DeviceConf{}) {
 		overrideElements := conf.DeviceConfiguration[value.IdInstance]
-		fmt.Printf("Override Values %+v", overrideElements)
+		logs.Info(conf.Logger, conf.Host, fmt.Sprint("Override Values %+v", overrideElements))
+
 		if overrideElements.Type != "" {
 			value.Type = extractZway.Trim(overrideElements.Type)
 		}

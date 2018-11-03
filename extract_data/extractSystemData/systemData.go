@@ -2,8 +2,8 @@ package extractSystemData
 
 import (
 	"fmt"
-	"github.com/prometheus/common/log"
 	"go-exporter-prometheus-z-way/extract_data/configuration"
+	"go-exporter-prometheus-z-way/extract_data/logs"
 	"go-exporter-prometheus-z-way/extract_data/models"
 	"os/exec"
 	"strings"
@@ -18,7 +18,7 @@ func updateValue(data *[]models.ElementDetails, name string, value float64) {
 }
 
 func ExtractTotalCpuUsage(conf configuration.MainConfig) ([]models.ElementDetails) {
-	systemData := GetLocalSystemSituation()
+	systemData := GetLocalSystemSituation(conf)
 	var data []models.ElementDetails
 	data = append(data, models.ElementDetails{ Name: "Cpu_total",  Value:0})
 	data = append(data, models.ElementDetails{ Name: "Mem_total", Value:0})
@@ -42,10 +42,10 @@ func ExtractTotalCpuUsage(conf configuration.MainConfig) ([]models.ElementDetail
 	return data
 }
 
-func GetLocalSystemSituation() (data []SystemDetails) {
+func GetLocalSystemSituation(conf configuration.MainConfig) (data []SystemDetails) {
 	out, err := exec.Command("ps", "aux").Output()
 	if err != nil {
-		log.Fatalf("Error unable to execute ps command %s", err)
+		logs.Error(conf.Logger, conf.Host, fmt.Sprint("Error unable to execute ps command %s", err))
 		return nil
 	}
 	systemInfo := strings.Split(string(out), "\n")
@@ -66,7 +66,7 @@ func GetLocalSystemSituation() (data []SystemDetails) {
 			&element.time,
 			&element.command)
 		if err != nil {
-			log.Errorf("error %s", err)
+			logs.Error(conf.Logger, conf.Host, fmt.Sprint("error decryting ps - aux elements : %s", err))
 		}
 		data = append(data, element)
 	}

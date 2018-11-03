@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"go-exporter-prometheus-z-way/extract_data/configuration"
+	"go-exporter-prometheus-z-way/extract_data/logs"
 	"go-exporter-prometheus-z-way/extract_data/models"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -19,24 +19,19 @@ func (data *Data) GetDataFromZWay() {
 	}
 	res, err := client.Get(data.Conf.ZwayServer)
 	if err != nil {
-		fmt.Println("There was a get site error:", err)
+		logs.Error(data.Conf.Logger, data.Conf.Host, fmt.Sprint("There was a get site error:", err))
 	} else {
 
 		temp, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			fmt.Println("There was a read error:", err)
+			logs.Error(data.Conf.Logger, data.Conf.Host, fmt.Sprint("There was a read while reading the body of zway request error:", err))
 		}
 
 		res.Body.Close()
 
 		err = json.Unmarshal(temp, &data.Json)
 		if err != nil {
-			log.Printf("error decoding sakura response: %v", err)
-			if e, ok := err.(*json.SyntaxError); ok {
-				log.Printf("syntax error at byte offset %d", e.Offset)
-			}
-			log.Printf("sakura response: %q", temp)
-			// fmt.Println("There was an Json to Structure error: ", err)
+			logs.Error(data.Conf.Logger, data.Conf.Host, fmt.Sprint("error decoding zway response: %v", err))
 		}
 	}
 }
@@ -195,5 +190,4 @@ func (data *Data) ExtractElements() {
 			}
 		}
 	}
-	// fmt.Printf("Devices found : %+v", data.Element)
 }

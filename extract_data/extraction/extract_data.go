@@ -15,7 +15,6 @@ import (
 )
 
 func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.MainConfig) {
-	logs.Info(conf.Logger, conf.Host, fmt.Sprint("New Request for metrics"))
 	data := new(Data)
 	data.Registry = prometheus.NewRegistry()
 	data.Metrics = make(map[string]*prometheus.GaugeVec)

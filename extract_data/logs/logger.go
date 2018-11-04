@@ -15,15 +15,16 @@ func toElastic(url string, host string, level string, message string) {
 	}
 	postingUrl := url + "/" + host + "/logs"
 
-	n := int64(time.Now().Unix())
+	unixNano := time.Now().UnixNano()
+	umillisec := unixNano / 1000000
+	n := int64(umillisec)
 	moment := strconv.FormatInt(n, 10)
-
-	json := "{ \"Level\": \"" + level + "\", \"message\" : \"" + message + "\", \"timestamp\":" + moment + "}"
+	json := "{ \"Level\": \"" + level + "\", \"message\" : \"" + message + "\", \"timestamp\":" + moment + ", \"timestamp2\": \"" + time.Now().Format(time.RFC3339) +"\"}"
 
 	_, err := client.Post(postingUrl, "application/json" ,
 		bytes.NewBuffer([]byte(json)))
 	if err != nil {
-		fmt.Printf("Failed to log error message. Post failed")
+		fmt.Printf("Failed to log error message. Post failed %s", postingUrl, err)
 	}
 }
 

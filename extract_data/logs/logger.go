@@ -24,7 +24,7 @@ func toElastic(url string, host string, level string, message string) {
 	_, err := client.Post(postingUrl, "application/json" ,
 		bytes.NewBuffer([]byte(json)))
 	if err != nil {
-		fmt.Printf("Failed to log error message. Post failed %s", postingUrl, err)
+		fmt.Printf("Failed to log error message. Post failed %s \n", postingUrl, err)
 	}
 }
 

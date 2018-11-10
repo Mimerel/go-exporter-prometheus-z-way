@@ -78,7 +78,6 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 func overrideValues(conf configuration.MainConfig, value *models.ElementDetails) {
 	if conf.DeviceConfiguration[value.IdInstance]!= (configuration.DeviceConf{}) {
 		overrideElements := conf.DeviceConfiguration[value.IdInstance]
-		logs.Info(conf.Logger, conf.Host, fmt.Sprint("Override Values %+v", overrideElements))
 
 		if overrideElements.Type != "" {
 			value.Type = extractZway.Trim(overrideElements.Type)

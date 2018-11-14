@@ -49,7 +49,7 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 		for _, v := range extractZway.ExtractZWayMetrics(*conf) {
 			overrideValues(*conf, &v)
 			v.Metric = "zway_" + strings.ToLower(strings.Replace(v.Name, " ", "_", -1)) + "_" + extractZway.Trim(v.Unit) + "_" + v.Instance
-			data.Source[v.Metric] = &models.ElementDetails{Name: v.Name, Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit, Instance: v.Instance,
+			data.Source[v.Metric] = &models.ElementDetails{Name: strings.Replace(v.Name, " ", "_", -1), Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit, Instance: v.Instance,
 			IdInstance: v.Id + "_" + v.Instance, Id: v.Id, Ignore: v.Ignore}
 		}
 	}

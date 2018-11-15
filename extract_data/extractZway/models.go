@@ -51,6 +51,7 @@ type CommandClass48Data struct {
 	Data1 CommandClass48DataValBool `json:"1,omitempty"`
 	Data6 CommandClass48DataValBool `json:"6,omitempty"`
 	Data8 CommandClass48DataValBool `json:"8,omitempty"`
+	Data12 CommandClass48DataValBool `json:"12,omitempty"`
 }
 
 type CommandClass48DataValBool struct {

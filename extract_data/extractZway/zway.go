@@ -162,7 +162,18 @@ func (data *Data) ExtractElements() {
 						element.IdInstance = deviceId + "_" + instanceKey
 						data.Element = append(data.Element, *element)
 					}
-				}
+					if instanceContent.CommandClasses.Class48.Data.Data12 != (CommandClass48DataValBool{}) {
+						element := new(models.ElementDetails)
+						element.Unit = "Tempered"
+						element.Value = BoolToIntensity(instanceContent.CommandClasses.Class48.Data.Data12.Level.Value)
+						element.Name = Trim(values[0])
+						element.Room = Trim(values[1])
+						element.Type = Trim(values[2])
+						element.Instance = instanceKey
+						element.Id = deviceId
+						element.IdInstance = deviceId + "_" + instanceKey
+						data.Element = append(data.Element, *element)
+					}				}
 				if instanceContent.CommandClasses.Class37 != (CommandClass37{}) {
 					element := new(models.ElementDetails)
 					element.Unit = "Level"

@@ -80,19 +80,10 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 				data.Metrics[index].WithLabelValues(data.Configuration.Host).Set(math.Round(value.Value*100) / 100)
 			}
 		}
-
 		h := promhttp.HandlerFor(data.Registry, promhttp.HandlerOpts{})
 		h.ServeHTTP(w, r)
 	} else {
-		final := make(map[string]*models.ElementDetails)
-		for index, value := range data.Source {
-			if value.Ignore == false {
-				final[index] = value
-				// final[index] = &models.ElementDetails{Metric:value.Metric,Name: value.Name, Room: value.Room, Type:value.Type, Unit:value.Unit, Instance:value.Instance,
-				// Id:value.Id, IdInstance:value.IdInstance, Ignore:value.Ignore, Value:value.Value, Switch:value.Switch}
-			}
-		}
-		js, err := json.Marshal(final)
+		js, err := json.Marshal(organizedValues(data.Source))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -103,6 +94,57 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 	logs.Info(conf.Logger, conf.Host, fmt.Sprint("New Request for metrics Successful"))
 }
 
+
+func organizedValues(source map[string]*models.ElementDetails) map[string]*models.GlobalDevice {
+	final := make(map[string]*models.GlobalDevice)
+	for _, value := range source {
+		if value.Ignore == false {
+			if final[value.Id] == nil {
+				final[value.Id] = new(models.GlobalDevice)
+				final[value.Id].Alarm = -9999.0
+				final[value.Id].Level = -9999.0
+				final[value.Id].Lux = -9999.0
+				final[value.Id].Tempered = -9999.0
+				final[value.Id].Flood = -9999.0
+				final[value.Id].Amperes = -9999.0
+				final[value.Id].Volts = -9999.0
+				final[value.Id].Watts = -9999.0
+				final[value.Id].Humidity = -9999.0
+				final[value.Id].Temperature = -9999.0
+			}
+			final[value.Id].Name = value.Name
+			final[value.Id].IdInstance = value.IdInstance
+			final[value.Id].Instance = value.Instance
+			final[value.Id].Id = value.Id
+			final[value.Id].Room = value.Room
+			final[value.Id].Type = value.Type
+			switch value.Unit {
+			case "degré":
+				final[value.Id].Temperature = value.Value
+			case "Humidity":
+				final[value.Id].Humidity = value.Value
+			case "Watt":
+				final[value.Id].Watts = value.Value
+			case "Volts":
+				final[value.Id].Volts = value.Value
+			case "Ampères":
+				final[value.Id].Amperes = value.Value
+			case "Flood":
+				final[value.Id].Flood = value.Value
+			case "Tempered":
+				final[value.Id].Tempered = value.Value
+			case "Lux":
+				final[value.Id].Lux = value.Value
+			case "Level":
+				final[value.Id].Level = value.Value
+				final[value.Id].Switch = value.Switch
+			case "Alarm":
+				final[value.Id].Alarm = value.Value
+			}
+		}
+	}
+	return final
+}
 
 func overrideValues(conf configuration.MainConfig, value *models.ElementDetails) {
 	if conf.DeviceConfiguration[value.IdInstance]!= (configuration.DeviceConf{}) {

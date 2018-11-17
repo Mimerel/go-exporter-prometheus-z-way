@@ -114,7 +114,7 @@ func (data *Data) ExtractElements() {
 					}
 					if instanceContent.CommandClasses.Class49.Data.Data5 != (CommandClass49DataVal{}) {
 						element := new(models.ElementDetails)
-						element.Unit = "Humidité"
+						element.Unit = "Humidity"
 						element.Value = instanceContent.CommandClasses.Class49.Data.Data5.Val.Value
 						element.Name = Trim(values[0])
 						element.Room = Trim(values[1])

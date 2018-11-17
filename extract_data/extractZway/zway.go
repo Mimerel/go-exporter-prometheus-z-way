@@ -181,6 +181,7 @@ func (data *Data) ExtractElements() {
 					element.Name = Trim(values[0])
 					element.Room = Trim(values[1])
 					element.Type = Trim(values[2])
+					element.Switch = "fix"
 					element.Instance = instanceKey
 					element.Id = deviceId
 					element.IdInstance = deviceId + "_" + instanceKey
@@ -193,6 +194,7 @@ func (data *Data) ExtractElements() {
 					element.Name = Trim(values[0])
 					element.Room = Trim(values[1])
 					element.Type = Trim(values[2])
+					element.Switch = "variable"
 					element.Instance = instanceKey
 					element.Id = deviceId
 					element.IdInstance = deviceId + "_" + instanceKey

@@ -11,4 +11,5 @@ type ElementDetails struct {
 	IdInstance string
 	Ignore bool
 	Value float64
+	Switch string
 }

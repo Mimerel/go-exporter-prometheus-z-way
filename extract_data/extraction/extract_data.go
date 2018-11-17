@@ -49,7 +49,7 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 		for _, v := range extractZway.ExtractZWayMetrics(*conf) {
 			overrideValues(*conf, &v)
 			v.Metric = "zway_" + strings.ToLower(strings.Replace(v.Name, " ", "_", -1)) + "_" + extractZway.Trim(v.Unit) + "_" + v.Instance
-			data.Source[v.Metric] = &models.ElementDetails{Name: strings.Replace(v.Name, " ", "_", -1), Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit, Instance: v.Instance,
+			data.Source[v.Metric] = &models.ElementDetails{Name: strings.Replace(v.Name, " ", "_", -1), Value: v.Value, Room: v.Room, Type: v.Type, Unit: v.Unit, Instance: v.Instance, Switch: v.Switch,
 			IdInstance: v.Id + "_" + v.Instance, Id: v.Id, Ignore: v.Ignore}
 		}
 	}
@@ -57,9 +57,9 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 	for index, value := range data.Source {
 		if value.Type != "" && value.Ignore == false {
 			data.Metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-				Name: index, Help: index,}, []string{"host", "type", "room", "unit", "name", "instance", "id"})
+				Name: index, Help: index,}, []string{"host", "type", "room", "unit", "name", "instance", "id", "switch"})
 			data.Registry.MustRegister(data.Metrics[index])
-			data.Metrics[index].WithLabelValues(data.Configuration.Host, value.Type, value.Room, value.Unit, value.Name, value.Instance, value.Id).
+			data.Metrics[index].WithLabelValues(data.Configuration.Host, value.Type, value.Room, value.Unit, value.Name, value.Instance, value.Id, value.Switch).
 				Set(math.Round(value.Value*100) / 100)
 		} else if value.Type == "" {
 			data.Metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{

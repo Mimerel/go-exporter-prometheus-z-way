@@ -13,4 +13,5 @@ type Data struct {
 	Source map[string]*models.ElementDetails
 	Metrics map[string]*prometheus.GaugeVec
 	Configuration *configuration.MainConfig
+	Json bool
 }

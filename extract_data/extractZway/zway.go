@@ -49,6 +49,14 @@ func (data *Data) ExtractElements() {
 		values := strings.Split(v.Data.GivenName.Value, "|")
 		if len(values) >= 3 && data.validTypes(values[2]) {
 			for instanceKey, instanceContent := range v.Instances {
+				var useClass50 bool
+				if (instanceContent.CommandClasses.Class50.Data.Data2 != (CommandClass50DataVal{}) &&
+					instanceContent.CommandClasses.Class50.Data.Data2.Val.Value > 0) ||
+					instanceContent.CommandClasses.Class49.Data.Data4 == (CommandClass49DataVal{}) {
+					useClass50 = true
+				} else {
+					useClass50 = false
+				}
 				if instanceContent.CommandClasses.Class50 != (CommandClass50{}) {
 					if instanceContent.CommandClasses.Class50.Data.Data2 != (CommandClass50DataVal{}) {
 						element := new(models.ElementDetails)
@@ -60,7 +68,9 @@ func (data *Data) ExtractElements() {
 						element.Id = deviceId
 						element.IdInstance = deviceId + "_" + instanceKey
 						element.Instance = instanceKey
-						data.Element = append(data.Element, *element)
+						if useClass50 == true {
+							data.Element = append(data.Element, *element)
+						}
 					}
 					if instanceContent.CommandClasses.Class50.Data.Data4 != (CommandClass50DataVal{}) {
 						element := new(models.ElementDetails)
@@ -111,6 +121,20 @@ func (data *Data) ExtractElements() {
 						element.IdInstance = deviceId + "_" + instanceKey
 						element.Id = deviceId
 						data.Element = append(data.Element, *element)
+					}
+					if instanceContent.CommandClasses.Class49.Data.Data4 != (CommandClass49DataVal{}) {
+						element := new(models.ElementDetails)
+						element.Unit = "Watt"
+						element.Value = instanceContent.CommandClasses.Class49.Data.Data4.Val.Value
+						element.Name = Trim(values[0])
+						element.Room = Trim(values[1])
+						element.Type = Trim(values[2])
+						element.Instance = instanceKey
+						element.IdInstance = deviceId + "_" + instanceKey
+						element.Id = deviceId
+						if useClass50 == false {
+							data.Element = append(data.Element, *element)
+						}
 					}
 					if instanceContent.CommandClasses.Class49.Data.Data5 != (CommandClass49DataVal{}) {
 						element := new(models.ElementDetails)

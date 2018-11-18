@@ -67,6 +67,7 @@ type CommandClass49 struct {
 type CommandClass49Data struct {
 	Data1 CommandClass49DataVal `json:"1,omitempty"`
 	Data3 CommandClass49DataVal `json:"3,omitempty"`
+	Data4 CommandClass49DataVal `json:"4,omitempty"`
 	Data5 CommandClass49DataVal `json:"5,omitempty"`
 }
 

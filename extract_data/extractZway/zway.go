@@ -17,7 +17,7 @@ func (data *Data) GetDataFromZWay() {
 	client := http.Client{
 		Timeout: timeout,
 	}
-	res, err := client.Get(data.Conf.ZwayServer)
+	res, err := client.Get(data.Conf.ZwayServer + "/ZWaveAPI/Data")
 	if err != nil {
 		logs.Error(data.Conf.Logger, data.Conf.Host, fmt.Sprint("There was a get site error:", err))
 	} else {

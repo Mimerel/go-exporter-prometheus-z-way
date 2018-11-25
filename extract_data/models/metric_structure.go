@@ -18,6 +18,8 @@ type GlobalDevice struct {
 	Name string
 	Room string
 	Type string
+	Host string
+	HostIp string
 	Switch string
 	Instance string
 	Id string

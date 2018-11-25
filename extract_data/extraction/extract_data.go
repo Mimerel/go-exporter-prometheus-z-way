@@ -83,7 +83,7 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 		h := promhttp.HandlerFor(data.Registry, promhttp.HandlerOpts{})
 		h.ServeHTTP(w, r)
 	} else {
-		js, err := json.Marshal(organizedValues(data.Source))
+		js, err := json.Marshal(organizedValues(conf, data.Source))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -95,7 +95,7 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 }
 
 
-func organizedValues(source map[string]*models.ElementDetails) map[string]*models.GlobalDevice {
+func organizedValues(conf *configuration.MainConfig, source map[string]*models.ElementDetails) map[string]*models.GlobalDevice {
 	final := make(map[string]*models.GlobalDevice)
 	for _, value := range source {
 		if value.Ignore == false {
@@ -116,6 +116,8 @@ func organizedValues(source map[string]*models.ElementDetails) map[string]*model
 			final[value.Id].IdInstance = value.IdInstance
 			final[value.Id].Instance = value.Instance
 			final[value.Id].Id = value.Id
+			final[value.Id].HostIp = conf.ZwayServer
+			final[value.Id].Host = conf.Host
 			final[value.Id].Room = value.Room
 			final[value.Id].Type = value.Type
 			switch value.Unit {

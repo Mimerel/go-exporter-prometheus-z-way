@@ -85,7 +85,7 @@ activated_Modules:
 - systemData
 - zway
 
-// device types you which to create metrics for
+// device types you wish to create metrics for
 // the types are those used in the z-wave.me interface to name the devices
 device_Types:
 - plug
@@ -102,6 +102,8 @@ device_Types:
 // two entries exist for may alarm system.
 // as I only use the first one, I have renammed it to Alarm Sirène => 54_1 -> name : Alarm Sirène
 // and decided to ignore the other one 54_2 => ignore: true
+//
+// you only need to lists modules you wish to override
 device_configuration:
   54_0:
     ignore: true

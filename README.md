@@ -10,7 +10,9 @@ I use this exporter on a raspberry pi running the z-wave.me software
 
 You must name your devices in your z-wave.me website as follows :
 
-<name of the device> | <Room it is in> | <type of device>
+```
+Element name: <name of the device> | <Room it is in> | <type of device>
+```
 
 the type of device could be :
 

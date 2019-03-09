@@ -75,9 +75,9 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 					Set(math.Round(value.Value*100) / 100)
 			} else if value.Type == "" {
 				data.Metrics[index] = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-					Name: index, Help: index,}, []string{"host",})
+					Name: index, Help: index,}, []string{"host","name"})
 				data.Registry.MustRegister(data.Metrics[index])
-				data.Metrics[index].WithLabelValues(data.Configuration.Host).Set(math.Round(value.Value*100) / 100)
+				data.Metrics[index].WithLabelValues(data.Configuration.Host, value.Name).Set(math.Round(value.Value*100) / 100)
 			}
 		}
 		h := promhttp.HandlerFor(data.Registry, promhttp.HandlerOpts{})

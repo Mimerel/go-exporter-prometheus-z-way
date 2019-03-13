@@ -9,9 +9,9 @@ import (
 )
 
 func updateValue(data *[]models.ElementDetails, name string, value float64) {
-	for _, v := range *data {
+	for key, v := range *data {
 		if v.Name == name {
-			v.Value = value
+			(*data)[key].Value = v.Value + value
 		}
 	}
 }
@@ -28,10 +28,10 @@ func ExtractTotalCpuUsage(conf configuration.MainConfig) ([]models.ElementDetail
 	for _, value := range systemData {
 		data[0].Value = data[0].Value + value.cpu
 		data[1].Value = data[1].Value + value.mem
-
 		for _, services := range conf.FollowedServices {
-
+			//conf.Logger.Info("value : %s ||| ", value.command, services )
 			if strings.Index(strings.ToLower(value.command), strings.ToLower(services)) != -1 {
+				conf.Logger.Info("value found %s, %s, %s", value, value.cpu, value.mem)
 				updateValue(&data ,"Cpu_" + services, value.cpu )
 				updateValue(&data ,"Mem_" + services, value.mem )
 			}

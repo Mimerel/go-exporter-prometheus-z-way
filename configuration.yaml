@@ -1,0 +1,32 @@
+host: steven-macbook
+port: 2112
+zway_Server: http://192.168.222.55:8083
+elasticSearch:
+  url: http://192.168.222.240:9200
+followed_Services:
+  go-exporter-prometheus-z-way: exporter_service
+  GoLand: goland
+  boxcryptor: "Boxcryptor"
+activated_Modules:
+- systemData
+- zway
+device_Types:
+- Prise
+- Temperature
+- Co2
+- Climat
+- Lampe
+- Detecteur
+device_configuration:
+  54_0:
+    ignore: true
+  54_1:
+    name: Alarm Sirène
+  54_2:
+    ignore: true
+  53_0:
+    ignore: true
+  53_1:
+    name: Alarm Totale
+  53_2:
+    name: Alarm Partielle

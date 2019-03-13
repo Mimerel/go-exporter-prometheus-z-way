@@ -26,6 +26,7 @@ func ReadConfiguration() (MainConfig){
 	if err != nil {
 		panic(err)
 	} else {
+		config.Elasticsearch.Url = ""
 		config.Logger = logs.New(config.Elasticsearch.Url, config.Host)
 		config.Logger.Info("Configuration Loaded : %s", config)
 	}

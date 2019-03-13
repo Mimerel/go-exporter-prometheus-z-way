@@ -2,9 +2,7 @@ package extractZway
 
 import (
 	"encoding/json"
-	"fmt"
 	"go-exporter-prometheus-z-way/extract_data/configuration"
-	"go-exporter-prometheus-z-way/extract_data/logs"
 	"go-exporter-prometheus-z-way/extract_data/models"
 	"io/ioutil"
 	"net/http"
@@ -19,19 +17,19 @@ func (data *Data) GetDataFromZWay() {
 	}
 	res, err := client.Get(data.Conf.ZwayServer + "/ZWaveAPI/Data")
 	if err != nil {
-		logs.Error(data.Conf.Logger, data.Conf.Host, fmt.Sprint("There was a get site error:", err))
+		data.Conf.Logger.Error("There was a get site error:", err)
 	} else {
 
 		temp, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			logs.Error(data.Conf.Logger, data.Conf.Host, fmt.Sprint("There was a read while reading the body of zway request error:", err))
+			data.Conf.Logger.Error("There was a read while reading the body of zway request error:", err)
 		}
 
 		res.Body.Close()
 
 		err = json.Unmarshal(temp, &data.Json)
 		if err != nil {
-			logs.Error(data.Conf.Logger, data.Conf.Host, fmt.Sprint("error decoding zway response: %v", err))
+			data.Conf.Logger.Error("error decoding zway response: %v", err)
 		}
 	}
 }

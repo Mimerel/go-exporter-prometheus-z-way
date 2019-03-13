@@ -2,13 +2,11 @@ package extraction
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go-exporter-prometheus-z-way/extract_data/configuration"
 	"go-exporter-prometheus-z-way/extract_data/extractSystemData"
 	"go-exporter-prometheus-z-way/extract_data/extractZway"
-	"go-exporter-prometheus-z-way/extract_data/logs"
 	"go-exporter-prometheus-z-way/extract_data/models"
 	"math"
 	"net/http"
@@ -91,7 +89,7 @@ func ExtractMetrics(w http.ResponseWriter, r *http.Request, conf *configuration.
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 	}
-	logs.Info(conf.Logger, conf.Host, fmt.Sprint("New Request for metrics Successful"))
+	conf.Logger.Info("New Request for metrics Successful")
 }
 
 

@@ -3,7 +3,6 @@ package extractSystemData
 import (
 	"fmt"
 	"go-exporter-prometheus-z-way/extract_data/configuration"
-	"go-exporter-prometheus-z-way/extract_data/logs"
 	"go-exporter-prometheus-z-way/extract_data/models"
 	"os/exec"
 	"strings"
@@ -45,7 +44,7 @@ func ExtractTotalCpuUsage(conf configuration.MainConfig) ([]models.ElementDetail
 func GetLocalSystemSituation(conf configuration.MainConfig) (data []SystemDetails) {
 	out, err := exec.Command("ps", "aux").Output()
 	if err != nil {
-		logs.Error(conf.Logger, conf.Host, fmt.Sprint("Error unable to execute ps command %s", err))
+		conf.Logger.Error("Error unable to execute ps command %s", err)
 		return nil
 	}
 	systemInfo := strings.Split(string(out), "\n")
@@ -66,7 +65,7 @@ func GetLocalSystemSituation(conf configuration.MainConfig) (data []SystemDetail
 			&element.time,
 			&element.command)
 		if err != nil {
-			logs.Error(conf.Logger, conf.Host, fmt.Sprint("error decryting ps - aux elements : %s", err))
+			conf.Logger.Error("error decryting ps - aux elements : %s", err)
 		}
 		data = append(data, element)
 	}

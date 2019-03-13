@@ -1,12 +1,13 @@
 package configuration
 
 import (
-	"fmt"
-	"go-exporter-prometheus-z-way/extract_data/logs"
+	"github.com/Mimerel/go-logger-client"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 )
+
+
 
 func ReadConfiguration() (MainConfig){
 	pathToFile := os.Getenv("EXPORTER_CONFIGURATION_FILE")
@@ -25,7 +26,8 @@ func ReadConfiguration() (MainConfig){
 	if err != nil {
 		panic(err)
 	} else {
-		logs.Info(config.Logger, config.Host, fmt.Sprint("Configuration Loaded : %s", config))
+		config.Logger = logs.New(config.Elasticsearch.Url, config.Host)
+		config.Logger.Info("Configuration Loaded : %s", config)
 	}
 	return config
 }

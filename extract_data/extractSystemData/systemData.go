@@ -22,16 +22,16 @@ func ExtractTotalCpuUsage(conf configuration.MainConfig) ([]models.ElementDetail
 	data = append(data, models.ElementDetails{ Name: "Cpu_total",  Value:0})
 	data = append(data, models.ElementDetails{ Name: "Mem_total", Value:0})
 	for _, services := range conf.FollowedServices {
-		data = append(data, models.ElementDetails{ Name:"Cpu_" + strings.Replace(services, "-", "-", -1),  Value: 0})
-		data = append(data, models.ElementDetails{Name:"Mem_" + strings.Replace(services, "-", "-", -1), Value: 0})
+		data = append(data, models.ElementDetails{ Name:"Cpu_" + services,  Value: 0})
+		data = append(data, models.ElementDetails{Name:"Mem_" + services, Value: 0})
 	}
 	for _, value := range systemData {
 		data[0].Value = data[0].Value + value.cpu
 		data[1].Value = data[1].Value + value.mem
-		for _, services := range conf.FollowedServices {
-			if strings.Index(strings.ToLower(value.command), strings.ToLower(services)) != -1 {
-				updateValue(&data ,"Cpu_" + strings.Replace(services, "-", "-", -1), value.cpu )
-				updateValue(&data ,"Mem_" + strings.Replace(services, "-", "-", -1), value.mem )
+		for key, services := range conf.FollowedServices {
+			if strings.Index(strings.ToLower(value.command), strings.ToLower(key)) != -1 {
+				updateValue(&data ,"Cpu_" + services, value.cpu )
+				updateValue(&data ,"Mem_" + services, value.mem )
 			}
 		}
 

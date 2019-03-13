@@ -12,7 +12,7 @@ import (
 func ReadConfiguration() (MainConfig){
 	pathToFile := os.Getenv("EXPORTER_CONFIGURATION_FILE")
 	if pathToFile == "" {
-		pathToFile = "/home/pi/go/src/go-exporter-prometheus-z-way/go-exporter-conf.yaml"
+		pathToFile = "/home/pi/go/src/go-exporter-prometheus-z-way/configuration.yaml"
 	}
 	yamlFile, err := ioutil.ReadFile(pathToFile)
 
